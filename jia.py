@@ -57,8 +57,8 @@ def main():
     # Since many write messages generate marketdata, this will cause an
     # exponential explosion in pending messages. Please, don't do that!
     
-    buy_bond = {"type": "add", "order_id": 1, "symbol": "BOND", "dir": "BUY", "price": 1000, "size": 10}
-    sell_bond = {"type": "add", "order_id": 2, "symbol": "BOND", "dir": "SELL", "price": 1000, "size": 10}
+    buy_bond = {"type": "add", "order_id": 1, "symbol": "BOND", "dir": "BUY", "price": 999, "size": 1}
+    sell_bond = {"type": "add", "order_id": 2, "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 1}
     cancel_buy = {"type": "cancel", "order_id": 1}
     write_to_exchange(exchange, buy_bond)
     write_to_exchange(exchange, sell_bond)
@@ -69,11 +69,11 @@ def main():
     start = timer()
     while True:
        # if sell and price <= 1k, BUY
-       
+
       message = read_from_exchange(exchange)
-      if message["type"] == "book" and message["symbol"] == "BOND":
+      if message["type"] == "book" and message["symbol"] == "VALE":
         print(message)
-      if message["type"] == "fill" or message["type"] == "hello": 
+      if message["type"] == "fill" or message["type"] == "VALEBZ": 
         print(message)
 
     #  now = timer()
