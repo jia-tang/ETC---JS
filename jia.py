@@ -44,6 +44,22 @@ def write_to_exchange(exchange, obj):
 def read_from_exchange(exchange):
     return json.loads(exchange.readline())
 
+# ~~~~~============== Helper ==============~~~~~
+
+prod_types = ['BOND', 'VALUE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
+live_buy_prices = {}
+live_sell_prices = {}
+
+live_buy_avg = {}
+live_sell_avg = {}
+
+for prod in prod_types:
+    live_buy_prices[prod] = 0
+    live_sell_prices[prod] = 0
+
+    live_buy_avg[prod] = 0
+    live_sell_avg[prod] = 0
+
 
 # ~~~~~============== MAIN LOOP ==============~~~~~
 
@@ -69,12 +85,17 @@ def main():
     start = timer()
     while True:
        # if sell and price <= 1k, BUY
-      message = read_from_exchange(exchange)
-      if message["type"] == "book" and message["symbol"] == "VALE":
-        print(message)
-      if message["type"] == "fill" or message["type"] == "VALEBZ": 
-        print(message)
+        message = read_from_exchange(exchange)
+        # if message["type"] == "book" and message["symbol"] == "VALE":
+        #     print(message)
+        # if message["type"] == "fill" or message["type"] == "VALEBZ": 
+        #     print(message)
 
+        if message["type"] == "book":
+            prod = message["symbol"]
+            live_buy_prices[prod] = message['buy'][0][0]
+            live_sell_prices[prod] = message['sell'][0][0]
+            print(live_buy_prices)
 
     #  now = timer()
     #  if int(timedelta(seconds = now-start)) % 30 == 0:
