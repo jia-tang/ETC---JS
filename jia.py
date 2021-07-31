@@ -125,6 +125,22 @@ def main():
                     write_to_exchange(exchange, buy_MS)
                     write_to_exchange(exchange, buy_WFC)
 
+                if others_buy > XLF_sell:
+                    
+                    buy_XLF = {"type": "add", "order_id": 3, "symbol": "XLF", "dir": "BUY", "price": live_sell_prices["XLF"], "size": 10}
+
+                    sell_BOND = {"type": "add", "order_id": 3, "symbol": "BOND", "dir": "SELL", "price": live_buy_prices["BOND"], "size": 3}
+                    sell_GS = {"type": "add", "order_id": 3, "symbol": "GS", "dir": "SELL", "price": live_buy_prices["GS"], "size": 2}
+                    sell_MS = {"type": "add", "order_id": 3, "symbol": "MS", "dir": "SELL", "price": live_buy_prices["MS"], "size": 3}
+                    sell_WFC = {"type": "add", "order_id": 3, "symbol": "WFC", "dir": "SELL", "price": live_buy_prices["WFC"], "size": 2}
+
+                    write_to_exchange(exchange, buy_XLF)
+                    write_to_exchange(exchange, sell_BOND)
+                    write_to_exchange(exchange, sell_GS)
+                    write_to_exchange(exchange, sell_MS)
+                    write_to_exchange(exchange, sell_WFC)
+                
+
                 # else:
 
                 #     buy_XLF = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": live_buy_prices["XLF"], "size": 10}
