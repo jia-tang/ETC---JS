@@ -23,7 +23,7 @@ test_mode = True
 # 0 is prod-like
 # 1 is slower
 # 2 is empty
-test_exchange_index = 1
+test_exchange_index = 0
 prod_exchange_hostname = "production"
 
 port = 25000 + (test_exchange_index if test_mode else 0)
@@ -103,6 +103,12 @@ def main():
             if VALE_buy < VALBZ_sell:
                 buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_buy, "size": 10}
                 sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_sell, "size": 10}
+                write_to_exchange(exchange, buy_VALE)
+                write_to_exchange(exchange, sell_VALBZ)
+
+            if VALE_sell < VALBZ_buy:
+                buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_sell, "size": 10}
+                sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_buy, "size": 10}
                 write_to_exchange(exchange, buy_VALE)
                 write_to_exchange(exchange, sell_VALBZ)
 
