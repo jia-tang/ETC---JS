@@ -70,11 +70,21 @@ def main():
     while True:
        # if sell and price <= 1k, BUY
        
-      message = read_from_exchange(exchange)
-      if message["type"] == "book" and message["symbol"] == "BOND":
-        print(message)
-      if message["type"] == "fill" or message["type"] == "hello": 
-        print(message)
+        message = read_from_exchange(exchange)
+        if message["type"] == "book" and message["symbol"] == "BOND":
+            print(message)
+        if message["type"] == "fill" or message["type"] == "hello":
+            print(message)
+
+        prod_types = ['BOND', 'VALUE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
+        # mid_value is the midpoint between the highest buy and the lowest sell
+        mid_values = {}
+
+        # for prod in prod_types:
+        #    mid_values[prod] =
+
+
+
 
     #  now = timer()
     #  if int(timedelta(seconds = now-start)) % 30 == 0:
