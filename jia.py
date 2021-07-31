@@ -103,8 +103,43 @@ def main():
                 if len(message['sell']) != 0:
                     live_sell_prices[prod] = message['sell'][0][0]
 
+            if "BOND" in live_sell_prices and "GS" in live_sell_prices and "MS" in live_sell_prices and "WFC" in live_sell_prices and "XLF" in live_sell_prices :
+                others_buy = live_sell_prices["BOND"]*3+live_sell_prices["GS"]*2+live_sell_prices["MS"]*3+live_sell_prices["WFC"]*2
+                others_sell = live_buy_prices["BOND"]*3+live_buy_prices["GS"]*2+live_buy_prices["MS"]*3+live_buy_prices["WFC"]*2
+                
+                XLF_sell = 10 * live_sell_prices["XLF"]
+                XLF_buy = 10 * live_buy_prices["XLF"]
 
-            print(live_sell_prices)
+                if others_sell < XLF_buy:
+                    
+                    sell_XLF = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "SELL", "price": live_buy_prices["XLF"], "size": 10}
+
+                    buy_BOND = {"type": "add", "order_id": 3, "symbol": "BOND", "dir": "BUY", "price": live_sell_prices["BOND"], "size": 3}
+                    buy_GS = {"type": "add", "order_id": 3, "symbol": "GS", "dir": "BUY", "price": live_sell_prices["GS"], "size": 2}
+                    buy_MS = {"type": "add", "order_id": 3, "symbol": "MS", "dir": "BUY", "price": live_sell_prices["MS"], "size": 3}
+                    buy_WFC = {"type": "add", "order_id": 3, "symbol": "WFC", "dir": "BUY", "price": live_sell_prices["WFC"], "size": 2}
+
+                    write_to_exchange(exchange, sell_XLF)
+                    write_to_exchange(exchange, buy_BOND)
+                    write_to_exchange(exchange, buy_GS)
+                    write_to_exchange(exchange, buy_MS)
+                    write_to_exchange(exchange, buy_WFC)
+
+                # else:
+
+                #     buy_XLF = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": live_buy_prices["XLF"], "size": 10}
+
+                #     sell_BOND = {"type": "add", "order_id": 3, "symbol": "BOND", "dir": "SELL", "price": live_sell_prices["BOND"], "size": 3}
+                #     sell_GS = {"type": "add", "order_id": 3, "symbol": "GS", "dir": "SELL", "price": live_sell_prices["GS"], "size": 2}
+                #     sell_MS = {"type": "add", "order_id": 3, "symbol": "MS", "dir": "SELL", "price": live_sell_prices["MS"], "size": 3}
+                #     sell_WFC = {"type": "add", "order_id": 3, "symbol": "WFC", "dir": "SELL", "price": live_sell_prices["WFC"], "size": 2}
+
+                #     write_to_exchange(exchange, buy_XLF)
+                #     write_to_exchange(exchange, sell_BOND)
+                #     write_to_exchange(exchange, sell_GS)
+                #     write_to_exchange(exchange, sell_MS)
+                #     write_to_exchange(exchange, sell_WFC)
+
 
             # if "VALE" in live_sell_prices and "VALBZ" in live_sell_prices:
             #     VALE_sell = live_sell_prices["VALE"]
