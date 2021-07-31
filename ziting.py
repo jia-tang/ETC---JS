@@ -1,16 +1,19 @@
-prod_types = ['BOND', 'VALUE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
+prod_limits = {}
+
 live_buy_prices = {}
 live_sell_prices = {}
 
 live_buy_avg = {}
 live_sell_avg = {}
 
-for prod in prod_types:
-    live_buy_prices[prod] = 0
-    live_sell_prices[prod] = 0
-
-    live_buy_avg[prod] = 0
-    live_sell_avg[prod] = 0
+prod_types = ['BOND', 'VALE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
+prod_limits["BOND"] = 100
+prod_limits['VALE'] = 10
+prod_limits['VALBZ'] = 10
+prod_limits['GS'] = 100
+prod_limits['MS'] = 100
+prod_limits['WFC'] = 100
+prod_limits['XLF'] = 100
 
 while True:
     message = read_from_exchange(exchange)
