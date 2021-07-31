@@ -75,8 +75,8 @@ def main():
     # Since many write messages generate marketdata, this will cause an
     # exponential explosion in pending messages. Please, don't do that!
     
-    buy_bond = {"type": "add", "order_id": 1, "symbol": "BOND", "dir": "BUY", "price": 999, "size": 1}
-    sell_bond = {"type": "add", "order_id": 2, "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 1}
+    buy_bond = {"type": "add", "order_id": 1, "symbol": "BOND", "dir": "BUY", "price": 999, "size": 10}
+    sell_bond = {"type": "add", "order_id": 2, "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 10}
     cancel_buy = {"type": "cancel", "order_id": 1}
     write_to_exchange(exchange, buy_bond)
     write_to_exchange(exchange, sell_bond)
@@ -103,25 +103,29 @@ def main():
                 if len(message['sell']) != 0:
                     live_sell_prices[prod] = message['sell'][0][0]
 
-            if "VALE" in live_sell_prices and "VALBZ" in live_sell_prices:
-                VALE_sell = live_sell_prices["VALE"]
-                VALE_buy = live_buy_prices["VALE"]
-                VALBZ_sell = live_sell_prices["VALBZ"]
-                VALBZ_buy = live_buy_prices["VALBZ"]
 
-                if VALE_buy < VALBZ_sell:
-                    buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_buy, "size": 10}
-                    sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_sell, "size": 10}
-                    write_to_exchange(exchange, buy_VALE)
-                    write_to_exchange(exchange, sell_VALBZ)
-                    print("VALE_buy < VALBZ_sell: ", str(VALE_buy - VALBZ_sell))
+            print(live_sell_prices)
 
-                if VALE_sell < VALBZ_buy:
-                    buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_sell, "size": 10}
-                    sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_buy, "size": 10}
-                    write_to_exchange(exchange, buy_VALE)
-                    write_to_exchange(exchange, sell_VALBZ)
-                    print("VALE_sell < VALBZ_buy: ", str(VALE_sell - VALBZ_buy))
+            # if "VALE" in live_sell_prices and "VALBZ" in live_sell_prices:
+            #     VALE_sell = live_sell_prices["VALE"]
+            #     VALE_buy = live_buy_prices["VALE"]
+            #     VALBZ_sell = live_sell_prices["VALBZ"]
+            #     VALBZ_buy = live_buy_prices["VALBZ"]
+
+            #     if VALE_buy < VALBZ_sell:
+            #         buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_buy, "size": 10}
+            #         sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_sell, "size": 10}
+            #         write_to_exchange(exchange, buy_VALE)
+            #         write_to_exchange(exchange, sell_VALBZ)
+            #         print("VALE_buy < VALBZ_sell: ", str(VALE_buy - VALBZ_sell))
+
+            #     if VALE_sell < VALBZ_buy:
+            #         buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_sell, "size": 10}
+            #         sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_buy, "size": 10}
+            #         write_to_exchange(exchange, buy_VALE)
+            #         write_to_exchange(exchange, sell_VALBZ)
+            #         print("VALE_sell < VALBZ_buy: ", str(VALE_sell - VALBZ_buy))
+
 
 
         if message["type"] == "fill": 
