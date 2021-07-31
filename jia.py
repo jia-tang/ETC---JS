@@ -78,8 +78,8 @@ def main():
     buy_bond = {"type": "add", "order_id": 1, "symbol": "BOND", "dir": "BUY", "price": 999, "size": 10}
     sell_bond = {"type": "add", "order_id": 2, "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 10}
     cancel_buy = {"type": "cancel", "order_id": 1}
-    write_to_exchange(exchange, buy_bond)
-    write_to_exchange(exchange, sell_bond)
+    # write_to_exchange(exchange, buy_bond)
+    # write_to_exchange(exchange, sell_bond)
     
 
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
@@ -112,7 +112,7 @@ def main():
 
                 if others_sell < XLF_buy:
                     
-                    sell_XLF = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "SELL", "price": live_buy_prices["XLF"], "size": 10}
+                    sell_XLF = {"type": "add", "order_id": 3, "symbol": "XLF", "dir": "SELL", "price": live_buy_prices["XLF"], "size": 10}
 
                     buy_BOND = {"type": "add", "order_id": 3, "symbol": "BOND", "dir": "BUY", "price": live_sell_prices["BOND"], "size": 3}
                     buy_GS = {"type": "add", "order_id": 3, "symbol": "GS", "dir": "BUY", "price": live_sell_prices["GS"], "size": 2}
