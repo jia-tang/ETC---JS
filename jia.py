@@ -106,7 +106,7 @@ def main():
                 write_to_exchange(exchange, buy_VALE)
                 write_to_exchange(exchange, sell_VALBZ)
 
-        if message["type"] == "fill" or message["symbol"] == "VALBZ" or message["symbol"] == "VALE" : 
+        if message["type"] == "fill": 
             print(message)
 
 
