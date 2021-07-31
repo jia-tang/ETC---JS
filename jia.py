@@ -45,20 +45,22 @@ def read_from_exchange(exchange):
     return json.loads(exchange.readline())
 
 # ~~~~~============== Helper ==============~~~~~
+prod_types = ['BOND', 'VALE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
+prod_limits = {}
 
-prod_types = ['BOND', 'VALUE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
 live_buy_prices = {}
 live_sell_prices = {}
 
 live_buy_avg = {}
 live_sell_avg = {}
 
-for prod in prod_types:
-    live_buy_prices[prod] = 0
-    live_sell_prices[prod] = 0
-
-    live_buy_avg[prod] = 0
-    live_sell_avg[prod] = 0
+prod_limits["BOND"] = 100
+prod_limits['VALE'] = 10
+prod_limits['VALBZ'] = 10
+prod_limits['GS'] = 100
+prod_limits['MS'] = 100
+prod_limits['WFC'] = 100
+prod_limits['XLF'] = 100
 
 
 # ~~~~~============== MAIN LOOP ==============~~~~~
@@ -93,8 +95,13 @@ def main():
 
         if message["type"] == "book":
             prod = message["symbol"]
-            live_buy_prices[prod] = message['buy'][0][0]
-            live_sell_prices[prod] = message['sell'][0][0]
+            if 'buy' in message.keys():
+                if len(message['buy']) != 0:
+                    live_buy_prices[prod] = message['buy'][0][0]
+            if 'sell' in message.keys():
+                if len(message['sell']) != 0:
+                    live_sell_prices[prod] = message['sell'][0][0]
+
             VALE_sell = live_sell_prices["VALE"]
             VALE_buy = live_buy_prices["VALE"]
             VALBZ_sell = live_sell_prices["VALBZ"]
