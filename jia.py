@@ -17,7 +17,7 @@ from datetime import timedelta
 team_name = "teamync"
 # This variable dictates whether or not the bot is connecting to the prod
 # or test exchange. Be careful with this switch!
-test_mode = True
+test_mode = False
 
 # This setting changes which test exchange is connected to.
 # 0 is prod-like
@@ -122,6 +122,7 @@ def main():
                     write_to_exchange(exchange, buy_VALE)
                     write_to_exchange(exchange, sell_VALBZ)
                     print("VALE_sell < VALBZ_buy: ", str(VALE_sell - VALBZ_buy))
+
 
         if message["type"] == "fill": 
             print(message)
