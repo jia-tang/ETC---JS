@@ -102,9 +102,9 @@ def main():
     #    write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     #   # print(type(message))
     #   #  print(message)
-      if message["type"] == "close":
-           print("The round has ended")
-           break
+        if message["type"] == "close":
+            print("The round has ended")
+            break
 
 
 if __name__ == "__main__":
