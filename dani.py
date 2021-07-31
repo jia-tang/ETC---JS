@@ -44,22 +44,6 @@ def write_to_exchange(exchange, obj):
 def read_from_exchange(exchange):
     return json.loads(exchange.readline())
 
-# ~~~~~============== Helper ==============~~~~~
-
-prod_types = ['BOND', 'VALUE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
-live_buy_prices = {}
-live_sell_prices = {}
-
-live_buy_avg = {}
-live_sell_avg = {}
-
-for prod in prod_types:
-    live_buy_prices[prod] = 0
-    live_sell_prices[prod] = 0
-
-    live_buy_avg[prod] = 0
-    live_sell_avg[prod] = 0
-
 
 # ~~~~~============== MAIN LOOP ==============~~~~~
 
@@ -73,38 +57,56 @@ def main():
     # Since many write messages generate marketdata, this will cause an
     # exponential explosion in pending messages. Please, don't do that!
     
-    buy_bond = {"type": "add", "order_id": 1, "symbol": "BOND", "dir": "BUY", "price": 999, "size": 1}
-    sell_bond = {"type": "add", "order_id": 2, "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 1}
+    buy_vale = {"type": "add", "order_id": 1, "symbol": "VALE", "dir": "BUY", "price": 4981, "size": 100}
+    buy_bond = {"type": "add", "order_id": 1, "symbol": "BOND", "dir": "BUY", "price": 1000, "size": 100}
+    sell_bond = {"type": "add", "order_id": 2, "symbol": "BOND", "dir": "SELL", "price": 1001, "size": 10}
     cancel_buy = {"type": "cancel", "order_id": 1}
-    write_to_exchange(exchange, buy_bond)
+    write_to_exchange(exchange, buy_vale)
     write_to_exchange(exchange, sell_bond)
+    write_to_exchange(exchange, buy_bond)
     
+    prod_types = ['BOND', 'VALUE', 'VALBZ', 'GS', 'MS', 'WFC', 'XLF']
+    live_buy_prices = {}
+    live_sell_prices = {}
+    
+    live_buy_avg = {}
+    live_sell_avg = {}
+    
+    for prod in prod_types:
+        live_buy_prices[prod] = 0
+        live_sell_prices[prod] = 0    
+        live_buy_avg[prod] = 0
+        live_sell_avg[prod] = 0
+
+while True:
 
     print("The exchange replied:", hello_from_exchange, file=sys.stderr)
     
     start = timer()
     while True:
        # if sell and price <= 1k, BUY
+       
         message = read_from_exchange(exchange)
-        # if message["type"] == "book" and message["symbol"] == "VALE":
-        #     print(message)
-        # if message["type"] == "fill" or message["type"] == "VALEBZ": 
-        #     print(message)
-
         if message["type"] == "book":
             prod = message["symbol"]
             live_buy_prices[prod] = message['buy'][0][0]
             live_sell_prices[prod] = message['sell'][0][0]
-            print(live_buy_prices)
+      
+      if message["type"] == "book" and message["symbol"] == "BOND":
+        print(message)
+      if message["type"] == "fill" or message["type"] == "hello": 
+        print(message)
 
+      if message["type"] == "book" and message["symbol"] == "VALE": 
+        print(message)
     #  now = timer()
     #  if int(timedelta(seconds = now-start)) % 30 == 0:
     #    write_to_exchange(exchange, {"type": "hello", "team": team_name.upper()})
     #   # print(type(message))
     #   #  print(message)
-        if message["type"] == "close":
-            print("The round has ended")
-            break
+      if message["type"] == "close":
+           print("The round has ended")
+           break
 
 
 if __name__ == "__main__":
