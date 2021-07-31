@@ -95,6 +95,7 @@ def main():
 
         if message["type"] == "book":
             prod = message["symbol"]
+
             if 'buy' in message.keys():
                 if len(message['buy']) != 0:
                     live_buy_prices[prod] = message['buy'][0][0]
@@ -102,22 +103,23 @@ def main():
                 if len(message['sell']) != 0:
                     live_sell_prices[prod] = message['sell'][0][0]
 
-            VALE_sell = live_sell_prices["VALE"]
-            VALE_buy = live_buy_prices["VALE"]
-            VALBZ_sell = live_sell_prices["VALBZ"]
-            VALBZ_buy = live_buy_prices["VALBZ"]
+            if "VALE" in live_sell_prices and "VALBZ" in live_sell_prices:
+                VALE_sell = live_sell_prices["VALE"]
+                VALE_buy = live_buy_prices["VALE"]
+                VALBZ_sell = live_sell_prices["VALBZ"]
+                VALBZ_buy = live_buy_prices["VALBZ"]
 
-            if VALE_buy < VALBZ_sell:
-                buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_buy, "size": 10}
-                sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_sell, "size": 10}
-                write_to_exchange(exchange, buy_VALE)
-                write_to_exchange(exchange, sell_VALBZ)
+                if VALE_buy < VALBZ_sell:
+                    buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_buy, "size": 10}
+                    sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_sell, "size": 10}
+                    write_to_exchange(exchange, buy_VALE)
+                    write_to_exchange(exchange, sell_VALBZ)
 
-            if VALE_sell < VALBZ_buy:
-                buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_sell, "size": 10}
-                sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_buy, "size": 10}
-                write_to_exchange(exchange, buy_VALE)
-                write_to_exchange(exchange, sell_VALBZ)
+                if VALE_sell < VALBZ_buy:
+                    buy_VALE = {"type": "add", "order_id": 3, "symbol": "VALE", "dir": "BUY", "price": VALE_sell, "size": 10}
+                    sell_VALBZ = {"type": "add", "order_id": 4, "symbol": "VALBZ", "dir": "SELL", "price": VALBZ_buy, "size": 10}
+                    write_to_exchange(exchange, buy_VALE)
+                    write_to_exchange(exchange, sell_VALBZ)
 
         if message["type"] == "fill": 
             print(message)
