@@ -104,7 +104,7 @@ def main():
                     live_sell_prices[prod] = message['sell'][0][0]
 
             if "BOND" in live_sell_prices and "GS" in live_sell_prices and "MS" in live_sell_prices and "WFC" in live_sell_prices and "XLF" in live_sell_prices :
-                val=2
+                val=1
                 others_buy = live_sell_prices["BOND"]*3+live_sell_prices["GS"]*2+live_sell_prices["MS"]*3+live_sell_prices["WFC"]*2
                 others_sell = live_buy_prices["BOND"]*3+live_buy_prices["GS"]*2+live_buy_prices["MS"]*3+live_buy_prices["WFC"]*2
                 
